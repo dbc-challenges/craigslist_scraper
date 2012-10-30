@@ -1,1 +1,1 @@
-require_relative '../lib/post.rb'
+require_relative 'post.rb'
