@@ -1,3 +1,5 @@
+require 'JSON'
+
 class Query
   attr_reader :content, :min, :max, :pic, :username, :created_at, :updated_at, :url_pieces
 
