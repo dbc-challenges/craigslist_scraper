@@ -6,8 +6,6 @@ class InvalidQuery < Exception; end
 
 class SearchResult
 
-  attr_reader :postings
-
   def initialize(url)
     @url = check_url(url)
     @postings = []
@@ -28,41 +26,46 @@ class SearchResult
   def parse_listed_dates(nokogiri_object)
     temp_array = []
     nokogiri_object.css('span.itemdate').each {|i| temp_array << i.children.text}
+    # p temp_array.length
     temp_array
   end
 
   def parse_posting_title(nokogiri_object)
     temp_array = []
     nokogiri_object.css('span.itemsep+a').each { |i| temp_array << i.text}
+    # p temp_array.length a[href*="html"]
     temp_array
   end
 
   def parse_posting_price(nokogiri_object)
     temp_array = []
     nokogiri_object.css('.itempp').each { |i| temp_array << i.inner_html}
+    # p temp_array.length
     temp_array
   end
 
   def parse_location(nokogiri_object)
     temp_array = []
-    nokogiri_object.css('.itempn').each { |i| temp_array << i.text} 
+    nokogiri_object.css('.itempn').each { |i| temp_array << i.text}
+    # p temp_array.length  
     temp_array
   end
 
   def parse_category(nokogiri_object)
     temp_array = []
-    nokogiri_object.css('.itemcg').each { |i| temp_array << i.text}
+    nokogiri_object.css('a:only-child').each { |i| temp_array << i.text}
+    # p temp_array.length .itemcg
     temp_array
   end
 
   def parse_unique_url(nokogiri_object)
     temp_array = []
     nokogiri_object.css('span.itemsep+a').each { |i| temp_array << i['href']}
+    # p temp_array.length
     temp_array
   end
 
   def parse_posting(nokogiri_object)
-      parsed_search_results = []
     nokogiri_object.css('p').each do |posting|
       posting_contents = []
       posting_contents << parse_listed_dates(posting).join
@@ -71,17 +74,20 @@ class SearchResult
       posting_contents << parse_location(posting).join
       posting_contents << parse_category(posting).join
       posting_contents << parse_unique_url(posting).join
-      parsed_search_results << posting_contents
+      p posting_contents
     end
-      parsed_search_results
   end
 
-  def create_posts_list(nokogiri_object)
-    parse_posting(nokogiri_object).each do |parsed_post|
-      @postings << Post.new(parsed_post)
-    end
-  end
+  def create_posts
+
 
 end
 
+#      Nokogiri::HTML(open("#{cl_url}"))
+#date posted - CHECK
+#posting title - 
+#listing price
+#location
+#category
+#unique url
 
