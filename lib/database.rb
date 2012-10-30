@@ -20,7 +20,6 @@ class CLDatabase
         updated_at DATETIME
       );
     SQL
-
   end
 
   def insert_query(query_hash)
