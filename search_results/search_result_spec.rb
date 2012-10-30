@@ -26,7 +26,6 @@ describe SearchResult do
 
     it "initializes with no postings in its list" do
       search_result.has_postings?.should eq(false)
-      # p Net::HTTP.get(URI.parse("#{cl_url}"))
     end
   end
 
@@ -77,6 +76,20 @@ describe SearchResult do
       search_result.parse_unique_url(nokogiri_object).first.should == "http://sfbay.craigslist.org/sby/ctd/3372616665.html"
     end
   end
-  
-end
+
+  context '#parse_posting' do
+    it 'returns date posted, posting title, listing price, location, category, and unique url from a posting' do
+      nokogiri_object = search_result.parse_results(cl_url)
+      search_result.parse_posting(nokogiri_object).first.should =~ [/\w{3}\s\d\d?/, /1999 Dodge Ram 1500 Quad Cab 5.9L V8/, /\$5995/]
+    end
+  end
+
+#   context '#just a test' do
+#     it 'tests price mismatch' do
+#       nokogiri_object = search_result.parse_results(cl_url)
+#       search_result.test_price_parsing(nokogiri_object).first.should == "something"
+#     end
+#   end
+
+ end
 
