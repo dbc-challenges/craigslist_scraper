@@ -1,9 +1,7 @@
+require 'nokogiri'
+require 'open-uri'
+
 class InvalidQuery < Exception; end
-
-
- craigslist = FakeWeb.register_uri(:get, "http://sfbay.craigslist.org/search/sss?query=1999+toyota+tundra&srchType=A&minAsk=500&maxAsk=9000&hasPic=1", :response => page)
- Net::HTTP.get(URI.parse("http://sfbay.craigslist.org/search/sss?query=1999+toyota+tundra&srchType=A&minAsk=500&maxAsk=9000&hasPic=1"))
-
 
 class SearchResult
 
@@ -20,11 +18,51 @@ class SearchResult
     @postings.length > 0    
   end
 
+  def parse_results(url)
+    returned_page = Nokogiri::HTML(open(url))
+  end
+
+  def parse_listed_dates(nokogiri_object)
+    temp_array = []
+    nokogiri_object.css('p.row span.itemdate').each {|i| temp_array << i.children.text}
+    temp_array
+  end
+
+  def parse_posting_title(nokogiri_object)
+    temp_array = []
+    nokogiri_object.css('p.row > a').each { |i| temp_array << i.inner_html}
+    temp_array
+  end
+
+  def parse_posting_price(nokogiri_object)
+    temp_array = []
+    nokogiri_object.css('.itempp').each { |i| temp_array << i.inner_html}
+    temp_array
+  end
+
+  def parse_location(nokogiri_object)
+    temp_array = []
+    nokogiri_object.css('.itempn').each { |i| temp_array << i.text}
+    temp_array
+  end
+
+  def parse_category(nokogiri_object)
+    temp_array = []
+    nokogiri_object.css('.itemcg').each { |i| temp_array << i.text}
+    temp_array
+  end
+
+  def parse_unique_url(nokogiri_object)
+    temp_array = []
+    nokogiri_object.css('p.row > a').each { |i| temp_array << i['href']}
+    temp_array
+  end
+
 end
 
-
-#date posted
-#posting title
+#      Nokogiri::HTML(open("#{cl_url}"))
+#date posted - CHECK
+#posting title - 
 #listing price
 #location
 #category
