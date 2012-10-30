@@ -1,1 +1,2 @@
-require_relative '../lib/query.rb'
+require '../lib/query.rb'
+require '../lib/database.rb'
