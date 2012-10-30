@@ -1,0 +1,18 @@
+RESPONSIBILITIES
+Create a Query class that the following:
+Take input
+Outputs a Query object
+Writes Query object to DB
+
+http://sfbay.craigslist.org/search/sss?query=cars&srchType=A& minAsk= &maxAsk= &hasPic=
+
+my_seardcher.rb cars max_price 2000
+
+http://sfbay.craigslist.org/search/sss?query=cars&srchType=A&minAsk=&maxAsk=&hasPic=
+
+
+
+http://sfbay.craigslist.org/search/sss?query=Miata+cars&srchType=A&minAsk=&maxAsk=
+http://sfbay.craigslist.org/search/sss?query=Miata+cars&srchType=A&minAsk=100&maxAsk=
+http://sfbay.craigslist.org/search/sss?query=Miata+cars&srchType=A&minAsk=100&maxAsk=2000
+http://sfbay.craigslist.org/search/sss?query=Miata+cars&srchType=A&minAsk=100&maxAsk=2000 &hasPic=1

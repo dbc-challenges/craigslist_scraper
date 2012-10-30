@@ -1,1 +1,3 @@
-require_relative 'post.rb'
+require '../lib/post.rb'
+require '../lib/query.rb'
+require '../lib/database.rb'
