@@ -19,7 +19,6 @@ describe Query do
     it "has a username" do
       my_query.username.should eq("Jim")
     end
-
     it "has a picture" do
       my_query.pic.should eq("1")
     end
