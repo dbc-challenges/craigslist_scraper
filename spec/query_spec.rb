@@ -19,7 +19,6 @@ describe Query do
     it "has a username" do
       my_query.username.should eq("Jim")
     end
-
     it "has a picture" do
       my_query.pic.should eq("1")
     end
@@ -54,6 +53,13 @@ describe Query do
     it "returns a hash containing queries data" do
       my_query.to_hash.should be_a(Hash)
       my_query.to_hash["queries"]["username"].should eq("Jim")
+    end
+  end
+
+  context '#to_s' do
+    it "returns the query as a properly formatted URL" do    
+      my_query.to_s.should eq(my_query.url.to_s) 
+      puts my_query.to_s
     end
   end
 end
