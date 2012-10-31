@@ -54,7 +54,6 @@ class CLDatabase
     SQL
   end
 
-
   def run(query, *params)
     puts query
     database.execute(query, *params)
@@ -146,6 +145,3 @@ end
 # unique url : "string" : "http://sfbay.craigslist.org/eby/bik/3374116435.html"
 # format : array: ["something","something_else"]
 end
-
-# db = CLDatabase.new
-# db.insert_post({"posts" => {"posting_ID" => 3375916191, "title" => "RED BICYCLE", "price" => "100", "location" => "San Francisco, CA", "category" => "bikes", "date_posted" => "2012-10-30 16:06:48 -0700", "unique_URL" => "http://sfbay.craigslist.org/search/sss?query=red+bicycle&srchType=A&minAsk=50&maxAsk=200&hasPic=1"}})
