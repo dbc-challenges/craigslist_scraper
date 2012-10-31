@@ -1,5 +1,9 @@
 require 'nokogiri'
 require 'open-uri'
+require 'fakeweb'
+
+FakeWeb.allow_net_connect = false
+
 require_relative 'post.rb'
 
 class InvalidQuery < Exception; end
@@ -11,18 +15,21 @@ class SearchResult
   def initialize(url)
     @url = check_url(url)
     @postings = []
+    cl_url = 'http://sfbay.craigslist.org/search/sss?query=1999+toyota+tundra&srchType=A&minAsk=500&maxAsk=9000&hasPic=1'
+    FakeWeb.register_uri(:get, "#{cl_url}", :response => "./my_spoofed_cl.html")
   end
 
   def check_url(url)
     raise InvalidQuery, "Invalid Query String" unless url =~ /^http:\/\/.+/ 
+    url
   end
 
   def has_postings?
     @postings.length > 0    
   end
 
-  def parse_results(url)
-    returned_page = Nokogiri::HTML(open(url))
+  def parse_results
+    returned_page = Nokogiri::HTML(open(@url))
   end
 
   def parse_listed_dates(nokogiri_object)
@@ -71,13 +78,15 @@ class SearchResult
       parsed_search_results = []
       nokogiri_object.css('p').each do |posting|
       posting_contents = []
-      posting_contents << parse_listed_dates(posting).join
+      
+      posting_contents << parse_unique_posting_id(posting).join
       posting_contents << parse_posting_title(posting).join
       posting_contents << parse_posting_price(posting).join
       posting_contents << parse_location(posting).join
       posting_contents << parse_category(posting).join
+      posting_contents << parse_listed_dates(posting).join
       posting_contents << parse_unique_url(posting).join
-      posting_contents << parse_unique_posting_id(posting).join
+      
       parsed_search_results << posting_contents
     end
       parsed_search_results
