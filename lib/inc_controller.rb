@@ -1,18 +1,19 @@
 require '../spec/spec_helper.rb'
 
 class IncrementalController
-	def initialize(user = 1)
-		@user = user
-		@db = CLDatabase.new
-	end
+  def initialize(user = 1)
+    @user = user
+    @db = CLDatabase.new
+  end
 
-	def retrieve_posts
-		user_data = @db.get_user_posts(@user)
-	end
+  def retrieve_posts
+    user_data = @db.get_user_posts(@user)
+    puts user_data.inspect
+  end
 
-	def send_email
-		 
-	end
+  def send_email
+
+  end
 
 end
 

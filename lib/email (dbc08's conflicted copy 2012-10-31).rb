@@ -17,7 +17,7 @@ class Email
   end
 
   def retrieve_posts
-    user_data = @db.get_user_posts(@user)
+    @user_data ||= @db.get_user_posts(@user)
   end
 
   def body(data)
@@ -37,12 +37,13 @@ class Email
   end
 
   def recipient_email
-    retrieve_posts['email_address']
+    puts retrieve_posts['email_address']
+    retrieve_posts['email_address'].flatten.to_s
   end
 
   def run_mailer
     imported_data = retrieve_posts["posts"]
-    send_mail(imported_data, "search results2")
+    send_mail(imported_data, "search results")
   end
 
   def send_mail(data, subject)
@@ -51,6 +52,9 @@ class Email
     mailer = Net::SMTP.new 'smtp.gmail.com', 587
     mailer.enable_starttls
     mailer.start('gmail.com', 'wookiesearch', 'mvclover', :login)
+    puts message.inspect
+    puts "*******************************"
+    puts recipient_email.inspect
     mailer.send_message(message, @sender_email, recipient_email)
     mailer.finish
   end
