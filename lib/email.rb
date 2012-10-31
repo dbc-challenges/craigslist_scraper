@@ -37,12 +37,12 @@ class Email
   end
 
   def recipient_email
-    retrieve_posts['email_address'].flatten.to_s
+    retrieve_posts['email_address']
   end
 
   def run_mailer
     imported_data = retrieve_posts["posts"]
-    send_mail(imported_data, "search results")
+    send_mail(imported_data, "search results2")
   end
 
   def send_mail(data, subject)
@@ -52,7 +52,7 @@ class Email
     mailer.enable_starttls
     mailer.start('gmail.com', 'wookiesearch', 'mvclover', :login)
     puts message.inspect
-    mailer.send_message(message, @sender_email, 'wookiesearch@gmail.com')
+    mailer.send_message(message, @sender_email, recipient_email)
     mailer.finish
   end
 
