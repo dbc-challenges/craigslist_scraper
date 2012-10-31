@@ -3,15 +3,12 @@ require '../spec/spec_helper.rb'
 
 class Email
 
-  def initialize
+def initialize(user = 1)
     @email_domain = 'gmail.com'
     @mailer_account_id = 'wookiesearch'
     @password = 'mvclover'
     @sender_email = 'wookiesearch@gmail.com'
     @body_temp = ""
-  end
-
-  def initialize(user = 1)
     @user = user
     @db = CLDatabase.new
   end
