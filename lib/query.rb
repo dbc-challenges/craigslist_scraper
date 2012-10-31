@@ -1,14 +1,13 @@
 class Query
-  attr_reader :content, :min, :max, :pic, :username, :created_at, :updated_at, :url_pieces
+  attr_reader :content, :min, :max, :pic, :created_at, :updated_at, :url_pieces
 
-  def initialize(content, min, max, pic, username)
+  def initialize(content, min, max, pic)
     @content  = content.split(" ").join("+")
     @min = min
     @max = max
     @pic = pic
-    @username = username
+    # @username = username
     @created_at = Time.now
-    @updated_at = Time.now
     @url_pieces = ["http://sfbay.craigslist.org/search/sss?query=#{@content}&srchType=A&", "minAsk=#{@min}&", "maxAsk=#{@max}", "&hasPic=#{@pic}"]
   end
 
@@ -20,7 +19,7 @@ class Query
   end
 
   def to_hash
-    {"queries" => {"url" => self.url, "created_at" => @created_at, "updated_at" => @updated_at, "username" => @username}}
+    {"queries" => {"url" => self.url, "max" => self.max, "min" => self.min, "content" => self.content, "created_at" => self.created_at.to_s}}
   end
 
   def to_s

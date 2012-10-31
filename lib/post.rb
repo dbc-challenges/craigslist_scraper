@@ -4,13 +4,13 @@ class Post
   attr_reader :data
 
   def initialize(input)
-    @data = {:date => input[0], 
-             :title => input[1], 
-             :price => input[2],
-             :location => input[3], 
-             :category => input[4],
-             :url => input[5],
-             :id => input[6]}
+    @data = {"posting_ID" => input[0],
+             "title" => input[1], 
+             "price" => input[2],
+             "location" => input[3], 
+             "category" => input[4],
+             "date_posted" => input[5],
+             "unique_url" => input[6]}
 
   end
 
