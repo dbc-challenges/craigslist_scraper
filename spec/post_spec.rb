@@ -8,7 +8,7 @@ describe 'Post' do
     initialize_post.data.should eq({:date => " Oct 29", 
                                     :title => "1999 Dodge Ram 1500 Quad Cab 5.9L V8", 
                                     :price => " $5995",
-                                    :location => " (milpitas)", 
+                                    :location => " (milpitas)",
                                     :category => " cars & trucks - by dealer",
                                     :url => "http://sfbay.craigslist.org/sby/ctd/3372616665.html",
                                     :id => "3374731585"})
@@ -19,7 +19,7 @@ describe 'Post' do
     initialize_post.format_for_db.should eq({:posts => {:date => " Oct 29", 
                                     :title => "1999 Dodge Ram 1500 Quad Cab 5.9L V8", 
                                     :price => " $5995",
-                                    :location => " (milpitas)", 
+                                    :location => " (milpitas)",
                                     :category => " cars & trucks - by dealer",
                                     :url => "http://sfbay.craigslist.org/sby/ctd/3372616665.html",
                                     :id => "3374731585"}})
