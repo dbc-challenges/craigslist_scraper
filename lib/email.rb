@@ -1,4 +1,5 @@
 require 'net/smtp'
+require '../spec/spec_helper.rb'
 
 class Email
 
@@ -10,10 +11,19 @@ class Email
     @body_temp = ""
   end
 
+  def initialize(user = 1)
+    @user = user
+    @db = CLDatabase.new
+  end
+
+  def retrieve_posts
+    user_data = @db.get_user_posts(@user)
+  end
+
   def body(data)
     @body_temp = ""
-    data.each do |datum|
-      @body_temp << "#{datum[:date]} - #{datum[:title]} -#{datum[:price]} -#{datum[:location]} -#{datum[:category]}\n #{datum[:url]}\n"
+    data[0..2].each do |datum|
+      @body_temp << "#{datum[5]} - #{datum[1]} -#{datum[2]} -#{datum[3]} -#{datum[4]}\n" #\n #{datum[:url]}
     end
     @body_temp
   end
@@ -27,34 +37,33 @@ class Email
   end
 
   def recipient_email
-    'wookiesearch@gmail.com'
+    retrieve_posts['email_address'].flatten.to_s
+  end
+
+  def run_mailer
+    imported_data = retrieve_posts["posts"]
+    send_mail(imported_data, "search results")
   end
 
   def send_mail(data, subject)
     @data = data
     @subject = subject
+    mailer = Net::SMTP.new 'smtp.gmail.com', 587
     mailer.enable_starttls
-    mailer.start(@email_domain, @mailer_account_id, @password, :login)
-    mailer.send_message(message, @sender_email, recipient_email)
+    mailer.start('gmail.com', 'wookiesearch', 'mvclover', :login)
+    puts message.inspect
+    mailer.send_message(message, @sender_email, 'wookiesearch@gmail.com')
     mailer.finish
   end
 
-  def mailer
+  def mailer2
     @mailer ||= Net::SMTP.new 'smtp.gmail.com', 587
   end
 
 end
 
 mail = Email.new
-mail.send_mail([{:date => " Oct 29",
-          :title => "1999 Dodge Ram 1500 Quad Cab 5.9L V8",
-          :price => " $5995",
-          :location => " (milpitas)",
-          :category => " cars & trucks - by dealer",
-          :url => "http://sfbay.craigslist.org/sby/ctd/3372616665.html"},
-         {:date => " Oct 29",
-          :title => "1999 Dodge Ram 3500 Quad Cab 5.9L V8",
-          :price => " $5995",
-          :location => " (milpitas)",
-          :category => " cars & trucks - by dealer",
-          :url => "http://sfbay.craigslist.org/sby/ctd/3372616665.html"}], "timed email")
+mail.run_mailer
+
+# mail = Email.new
+# mail.send_mail([[3376352490, "*** 2010 TOYOTA TUNDRA DOUBLE CAB TRUCK GOOD *** - $6210", "", " (stockton)", " <<cars & trucks - by dealer", " Oct 30", nil, 1, 3376352490], [3376439125, "*** 2010 TOYOTA TUNDRA DOUBLE CAB TRUCK GARAGE KEPT ***", " $6232", " (SF bay area)", " cars & trucks - by dealer", " Oct 30", nil, 1, 3376439125]], "timed email")
