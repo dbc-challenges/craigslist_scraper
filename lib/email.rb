@@ -45,16 +45,16 @@ class Email
 
 end
 
-# mail = Email.new
-# mail.send_mail([{:date => " Oct 29",
-#           :title => "1999 Dodge Ram 1500 Quad Cab 5.9L V8",
-#           :price => " $5995",
-#           :location => " (milpitas)",
-#           :category => " cars & trucks - by dealer",
-#           :url => "http://sfbay.craigslist.org/sby/ctd/3372616665.html"},
-#          {:date => " Oct 29",
-#           :title => "1999 Dodge Ram 3500 Quad Cab 5.9L V8",
-#           :price => " $5995",
-#           :location => " (milpitas)",
-#           :category => " cars & trucks - by dealer",
-#           :url => "http://sfbay.craigslist.org/sby/ctd/3372616665.html"}], "timed email")
+mail = Email.new
+mail.send_mail([{:date => " Oct 29",
+          :title => "1999 Dodge Ram 1500 Quad Cab 5.9L V8",
+          :price => " $5995",
+          :location => " (milpitas)",
+          :category => " cars & trucks - by dealer",
+          :url => "http://sfbay.craigslist.org/sby/ctd/3372616665.html"},
+         {:date => " Oct 29",
+          :title => "1999 Dodge Ram 3500 Quad Cab 5.9L V8",
+          :price => " $5995",
+          :location => " (milpitas)",
+          :category => " cars & trucks - by dealer",
+          :url => "http://sfbay.craigslist.org/sby/ctd/3372616665.html"}], "timed email")
