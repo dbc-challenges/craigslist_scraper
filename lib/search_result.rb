@@ -61,9 +61,15 @@ class SearchResult
     temp_array
   end
 
+  def parse_unique_posting_id(nokogiri_object)
+    temp_array = []
+    nokogiri_object.css('span.itemsep+a').each { |i| temp_array << i['href'].slice(/\d{10}/) }
+    temp_array
+  end
+
   def parse_posting(nokogiri_object)
       parsed_search_results = []
-    nokogiri_object.css('p').each do |posting|
+      nokogiri_object.css('p').each do |posting|
       posting_contents = []
       posting_contents << parse_listed_dates(posting).join
       posting_contents << parse_posting_title(posting).join
@@ -71,6 +77,7 @@ class SearchResult
       posting_contents << parse_location(posting).join
       posting_contents << parse_category(posting).join
       posting_contents << parse_unique_url(posting).join
+      posting_contents << parse_unique_posting_id(posting).join
       parsed_search_results << posting_contents
     end
       parsed_search_results

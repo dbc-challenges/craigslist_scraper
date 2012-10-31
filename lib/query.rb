@@ -22,4 +22,8 @@ class Query
   def to_hash
     {"queries" => {"url" => self.url, "created_at" => @created_at, "updated_at" => @updated_at, "username" => @username}}
   end
+
+  def to_s
+    "#{self.url}"
+  end
 end

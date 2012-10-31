@@ -9,7 +9,8 @@ class Post
              :price => input[2],
              :location => input[3], 
              :category => input[4],
-             :url => input[5]}
+             :url => input[5],
+             :id => input[6]}
 
   end
 

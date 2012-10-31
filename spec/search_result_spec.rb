@@ -4,6 +4,7 @@ require 'nokogiri'
 require 'open-uri'
 SimpleCov.start
 require 'search_result.rb'
+require 'query.rb'
 FakeWeb.allow_net_connect = false
 
 describe SearchResult do 
@@ -13,6 +14,7 @@ describe SearchResult do
   FakeWeb.register_uri(:get, "#{cl_url}", :response => "../search_results/response_from_cl_search.html")
   let (:search_result) { SearchResult.new("#{cl_url}") }
   let (:nokogiri_object) { search_result.parse_results(cl_url) }
+  let (:my_query) { Query.new("bike", "1", "600", "1", "Jim") }
    
   context '#initialize' do
 
@@ -26,6 +28,10 @@ describe SearchResult do
 
     it "initializes with no postings in its list" do
       search_result.has_postings?.should eq(false)
+    end
+
+    it "receives and uses a query for initialization" do
+      expect { SearchResult.new(my_query.url) }.to_not raise_error
     end
   end
 
@@ -71,18 +77,32 @@ describe SearchResult do
     end
   end
 
+  context '#parse_unique_posting_id' do
+    it 'returns unique posting id from query' do
+      search_result.parse_unique_posting_id(nokogiri_object).first.should =~ /\d{10}/ 
+    end
+  end
+
   context '#parse_posting' do
     it 'returns date posted, posting title, listing price, location, category, and unique url from a posting' do
-      search_result.parse_posting(nokogiri_object).first.length.should eq(6)
+      search_result.parse_posting(nokogiri_object).first.length.should eq(7)
     end
   end
 
   context '#create_posts_list' do
-    it 'creates an array of posts using parsed data' do
+    it 'creates an array of posts using fake parsed data' do
       search_result.create_posts_list(nokogiri_object)
       search_result.postings.sample.should be_instance_of(Post)
     end
+
+    it 'creates an array of posts using real data from a query' do
+      test_search = SearchResult.new(my_query.to_s)
+      nokogiri_object = test_search.parse_results(my_query.to_s)
+      test_search.create_posts_list(nokogiri_object)
+      test_search.postings.sample.should be_instance_of(Post)
+    end
   end
+
 
  end
 

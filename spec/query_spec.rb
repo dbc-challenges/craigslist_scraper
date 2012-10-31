@@ -55,4 +55,11 @@ describe Query do
       my_query.to_hash["queries"]["username"].should eq("Jim")
     end
   end
+
+  context '#to_s' do
+    it "returns the query as a properly formatted URL" do    
+      my_query.to_s.should eq(my_query.url.to_s) 
+      puts my_query.to_s
+    end
+  end
 end
