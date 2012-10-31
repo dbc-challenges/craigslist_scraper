@@ -2,6 +2,8 @@ class Interface
   
   def initialize 
     @user_input = []
+    @email = ""
+    @email_validation = ""
     @username = ""
     @content = ""
     @min_price = ""
@@ -20,6 +22,23 @@ class Interface
     validate_username
   end
 
+  def get_email
+    puts "Please enter your email address"
+    @email = gets.chomp
+    verify_email
+  end
+
+  def verify_email
+    puts "Please re-enter your email address"
+    @email_validation = gets.chomp
+    if @email == @email_validation 
+      @user_input << @email 
+    else
+      puts "Email addresses did not match."
+      get_email
+    end
+  end
+
   def validate_username
     if @username =~ /\d/ 
       @user_input << @username
@@ -30,8 +49,8 @@ class Interface
   end
 
   def new_query
-    puts "**************************************************"
-    puts "\n\n"
+    get_username
+    get_email
     get_content
     get_min_price
     get_max_price
@@ -140,6 +159,5 @@ end
 
 interface = Interface.new
 interface.greet
-interface.get_username
 interface.new_query
 
